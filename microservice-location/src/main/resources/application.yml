@@ -1,0 +1,34 @@
+spring:
+   application:
+     name: microservice-location
+   
+server:
+    port: 7202
+
+management:
+   endpoints:
+       web:
+          exposure:
+             include: '*'
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka
+    fetch-registry: true
+    register-with-eureka: true 
+  server:
+    eviction-interval-timer-in-ms: 15000
+  instance:
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+    instance:
+      instance-id: ${spring.application.name}:${server.port}
+      prefer-ip-address: true
+      
+hystrix:
+  command:
+    getRentsKey:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000      
